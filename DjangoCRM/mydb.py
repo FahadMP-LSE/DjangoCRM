@@ -37,3 +37,4 @@ if you get mysql.connector.errors.NotSupportedError: Authentication plugin 'cach
 open terminal and : pip install mysql-connector-python
 """
 
+#After setting the database, migrate - but first run pip install mysqlclient
