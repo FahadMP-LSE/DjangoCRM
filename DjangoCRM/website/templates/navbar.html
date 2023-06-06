@@ -9,6 +9,9 @@
         <!-- want users to logout but only if they log in ..also if user logged in don;t want him to register..so put register in else part-->
 
         {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url "add_record" %}">Add Record</a>
+        </li>
    
         <li class="nav-item">
           <a class="nav-link" href="{% url "logout" %}">Logout</a>
