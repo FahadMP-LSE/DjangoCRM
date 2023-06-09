@@ -1,4 +1,7 @@
 from django.db import models
+from django.contrib.auth.models import User#we will extend user model to create user profiles
+from django.db.models.signals import post_save# to automatically register new user profiles
+
 
 # Create your models here.
 #creating database model here...no need to know sql or any other thing..django does it itself.
@@ -18,3 +21,33 @@ class Record(models.Model):#django will change to records (plural)
     def __str__(self): #show what to show on screen when accessing records
         return(f"{self.first_name} {self.last_name}")
   
+
+  #profiles for users
+class Profile(models.Model):#importing model
+    user=models.OneToOneField(User,on_delete=models.CASCADE) #associate one user to one profile
+    #cascade means if delete a user delete profile too
+    follows=models.ManyToManyField("self",
+                                   related_name="followed_by",
+                                   symmetrical=False,blank=True)#a user can follow many people
+#symmetrical=False means one person can follow anotherbut the other person doesnt have to follow the first
+#Blank=true means a person is not forced to follow someone
+
+    date_modified=models.DateTimeField(User, auto_now=True)
+
+
+    def __str__(self):
+        return self.user.username#in profiles section, without this code, shows "profile object 1","profile object 2 etc..
+    #we are now showing the actual usernames
+    # 
+
+
+#create profile when new user signs up...
+def create_profile(sender,instance, created,**kwargs):
+    if created:
+        user_profile=Profile(user=instance)# send new user to our Profile#see above def pROFILE
+        user_profile.save()
+        #have user follow himself
+        user_profile.follows.set([instance.profile.id])#want to follow the users own id...migration created it automatically for each user....see migration py files
+        user_profile.save()
+
+post_save.connect(create_profile,sender=User)

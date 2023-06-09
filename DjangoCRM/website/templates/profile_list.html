@@ -1,0 +1,35 @@
+{% extends "base.html"%}
+{% load static %}
+
+
+{% block content %}
+<h1> Profile lists</h1>
+<br/>
+
+{% if profiles %}
+{% for profile in profiles %}
+
+<div class="card mb-3" style="max-width: 540px;">
+    <div class="row no-gutters">
+      <div class="col-md-4">
+        <img src="{% static "images/Microsoft_Account_Logo.svg.png" %}" class="card-img" alt="Profile Image">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{profile.user.username}}</h5>
+          <p class="card-text">@{{profile.user.username|lower}}</p>
+          <br/><br/>
+          <p class="card-text"><small class="text-muted">Last Updated:{{profile.date_modified}}</small></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br/><br/>
+
+<!-- values above are imported from the Profile model (models.py page) -->
+
+<br/><br/>
+{% endfor %}
+
+{% endif %}
+{% endblock %}

@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate,login, logout
 from django.contrib import messages # to show messages e.g. logged in /logged out/registered successfully
 from .forms import SignUpForm, AddRecordForm #importing form we created in forms.py file
-from .models import Record
+from .models import Record, Profile
+
 
 # Create your views here.
 
@@ -100,4 +101,13 @@ def update_record(request,pk):
     else:
         messages.success(request,"You must be logged in to add records!")
         return redirect("home")
+    
+
+def profile_list(request):
+    if request.user.is_authenticated:
+        profiles=Profile.objects.exclude(user=request.user)# want to show profiles but do not want to see our own profile
+        return render(request,"profile_list.html",{"profiles":profiles})
+    else:
+        messages.success(request, "You must be logged in to view this page")
+        return render("home")
         

@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="{% url "home" %}">Django CRM</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary" >
+    <a class="navbar-brand" href="{% url "home" %}"><strong> TrendBuy</strong></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -9,13 +9,66 @@
         <!-- want users to logout but only if they log in ..also if user logged in don;t want him to register..so put register in else part-->
 
         {% if user.is_authenticated %}
-        <li class="nav-item">
-          <a class="nav-link" href="{% url "add_record" %}">Add Record</a>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <strong>My Messages</strong>
+          </a>
+
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{% url "profile_list" %}">Contact Profile List</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
         </li>
-   
-        <li class="nav-item">
-          <a class="nav-link" href="{% url "logout" %}">Logout</a>
+      
+
+      
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <strong>My Database</strong>
+          </a>
+
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{% url "add_record" %}">Add Record</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
         </li>
+        
+        <li class="nav-item ml-5"></li>
+        <li class="nav-item ml-5"></li>
+        <li class="nav-item ml-5"></li>
+        <li class="nav-item ml-5"></li>
+        <li class="nav-item ml-5"></li>
+        <li class="nav-item ml-5"></li>
+        <li class="nav-item ml-5"></li>
+        <li class="nav-item ml-5"></li>
+        <li class="nav-item ml-5"></li>
+        <li class="nav-item ml-5"></li>
+        <li class="nav-item ml-5"></li>
+        <li class="nav-item ml-5"></li>
+        <li class="nav-item ml-5"></li>
+        <li class="nav-item ml-5"></li>
+        <li class="nav-item ml-5"></li>
+        <li class="nav-item ml-5"></li>
+        <li class="nav-item ml-5"></li>
+        <li class="nav-item ml-5"></li>
+        <li class="nav-item ml-5"></li>
+        <li class="nav-item ml-5"></li>
+        <li class="nav-item ml-5"></li>
+      
+
+          <li class="nav-item ml-5">
+            <a class="nav-link"  href="{% url "logout" %}">Logout</a>
+          </li>
+        
+
+
+
 
         {% else %}
         <li class="nav-item">
@@ -25,6 +78,11 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url "home" %}">Login</a>
         </li>
+
+
+      
+       
+         
 
 
 

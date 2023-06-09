@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views # we need to connect each page with a view
+from . import views # we need to connect each page with a view (. means everything)
 
 urlpatterns = [
     path("",views.home,name="home"),#creating homepage "" is for homepage
@@ -11,6 +11,7 @@ urlpatterns = [
     path("delete_record/<int:pk>",views.delete_record,name="delete_record"),#need to pass primary key to know which record to delete
     path("add_record/",views.add_record,name="add_record"),#creating homepage "" is for homepage
     path("update_record/<int:pk>",views.update_record,name="update_record"),#creating homepage "" is for homepage
+    path("profile_list/",views.profile_list,name="profile_list")
 
 
 ]
