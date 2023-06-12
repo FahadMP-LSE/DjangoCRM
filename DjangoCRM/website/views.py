@@ -142,6 +142,23 @@ def view_records(request):
 def profile(request, pk):
     if request.user.is_authenticated:
         profile=Profile.objects.get(user_id=pk)
+
+        #Post form logic for follow/unfollow button
+        if request.method=="POST":
+            #get current user id
+            current_user_profile=request.user.profile
+            #get form data
+            action=request.POST["follow"] #name for follow/unfollow button is follow
+            #decide to follow/unfollow
+            if action=="unfollow":
+                current_user_profile.follows.remove(profile) # profile is primary key of page we are on
+            elif action=="follow":#can use else too
+                current_user_profile.follows.add(profile)
+                #save the profile 
+            current_user_profile.save()
+
+
+
         return render(request, "profile.html",{"profile":profile})
     else:
         messages.success(request,"There was an error logging in. Please Try again!")
