@@ -111,3 +111,38 @@ def profile_list(request):
         messages.success(request, "You must be logged in to view this page")
         return render("home")
         
+def view_records(request):
+    if request.user.is_authenticated:
+        records= Record.objects.all()#grab all records
+        return render(request,"view_records.html",{"records":records})
+    else:
+        messages.success(request, "You must be logged in to view this page")
+        return render(request,"home.html")
+
+# #check to see if logging in (posting) otherwise (getting request)
+#     if request.method=="POST":
+#         username=request.POST["username"]#saying that get their username (for placeholder Username)
+#         password=request.POST["password"]
+#         #running logic - authenticate
+
+#         user=authenticate(request,username=username,password=password)#authenticate is function which takes arguments
+#         if user is not None:
+#             login(request,user)
+#             #if username and password correct, logged in
+#             messages.success(request, "You have been logged in!")
+#             return redirect("home")
+#         else:
+#             messages.success(request,"There was an error logging in. Please Try again!")
+#             return redirect("home")
+#     else:         
+   # return render(request,"view_records.html",{"records":records})#{} is an empty context dictionary
+#"records": records above means that ifuser has logged in, should see all records.
+
+
+def profile(request, pk):
+    if request.user.is_authenticated:
+        profile=Profile.objects.get(user_id=pk)
+        return render(request, "profile.html",{"profile":profile})
+    else:
+        messages.success(request,"There was an error logging in. Please Try again!")
+        return redirect("home")

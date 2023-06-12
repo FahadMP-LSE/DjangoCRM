@@ -10,6 +10,8 @@
 
         {% if user.is_authenticated %}
 
+        <!-- My messages section -->
+
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <strong>My Messages</strong>
@@ -22,6 +24,8 @@
             <a class="dropdown-item" href="#">Something else here</a>
           </div>
         </li>
+
+        <!-- my database section -->
       
 
       
@@ -32,12 +36,16 @@
           </a>
 
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{% url "view_records" %}">View | Edit (Records)</a>
             <a class="dropdown-item" href="{% url "add_record" %}">Add Record</a>
-            <a class="dropdown-item" href="#">Another action</a>
+            
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Something else here</a>
           </div>
         </li>
+
+
+
         
         <li class="nav-item ml-5"></li>
         <li class="nav-item ml-5"></li>
@@ -56,13 +64,27 @@
         <li class="nav-item ml-5"></li>
         <li class="nav-item ml-5"></li>
         <li class="nav-item ml-5"></li>
-        <li class="nav-item ml-5"></li>
-        <li class="nav-item ml-5"></li>
-        <li class="nav-item ml-5"></li>
-        <li class="nav-item ml-5"></li>
-      
 
-          <li class="nav-item ml-5">
+        <li class="nav-item ml-5"></li>
+        <li class="nav-item ml-5"></li>
+        <!-- <li class="nav-item ml-5"></li> -->
+        <!-- <li class="nav-item ml-5"></li> -->
+      
+        <!-- my profile section -->
+<li class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <strong>My Dashboard</strong>
+  </a>
+
+  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+    <a class="dropdown-item" href="{% url "profile" request.user.id %}">{{profile.user.username}}'s Profile</a>
+    <a class="dropdown-item" href="#">Another action</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="#">Something else here</a>
+  </div>
+</li>
+
+          <li class="nav-item">
             <a class="nav-link"  href="{% url "logout" %}">Logout</a>
           </li>
         
