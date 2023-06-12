@@ -2,13 +2,16 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate,login, logout
 from django.contrib import messages # to show messages e.g. logged in /logged out/registered successfully
 from .forms import SignUpForm, AddRecordForm #importing form we created in forms.py file
-from .models import Record, Profile
+from .models import Record, Profile,Meep
 
 
 # Create your views here.
 
 def home(request):#integrating login/logout here instead of in separate areas
-    records= Record.objects.all()#grab all records
+    if request.user.is_authenticated:#show meeps to people logged in
+        meeps=Meep.objects.all().order_by("-created_at")#reversing order to show latest meeps first otherwise shows oldest meeps first
+    return render(request,"home.html",{"meeps":meeps})
+    
 
 
 
@@ -142,6 +145,7 @@ def view_records(request):
 def profile(request, pk):
     if request.user.is_authenticated:
         profile=Profile.objects.get(user_id=pk)
+        meeps=Meep.objects.filter(user_id=pk).order_by("-created_at")
 
         #Post form logic for follow/unfollow button
         if request.method=="POST":
@@ -159,7 +163,7 @@ def profile(request, pk):
 
 
 
-        return render(request, "profile.html",{"profile":profile})
+        return render(request, "profile.html",{"profile":profile,"meeps":meeps})
     else:
         messages.success(request,"There was an error logging in. Please Try again!")
         return redirect("home")

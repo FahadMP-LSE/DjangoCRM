@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.models import Group# this is groups in admin panel
 
 from django.contrib.auth.models import User# this is user in django admin panel
-from .models import Profile# we created Profile in models.py - registering ehre
+from .models import Profile,Meep# we created Profile in models.py - registering ehre
 # Register your models here.
 
 from .models import Record # to show database that we created in admin panel
@@ -34,6 +34,6 @@ admin.site.unregister(User)#unregister
 admin.site.register(User, UserAdmin)#user and useradmin registered
 
 #admin.site.register(Profile)
+admin.site.register(Meep)                
                     
-                    
-
+#admin.site.unregister(Meep)#unregister

@@ -11,9 +11,24 @@
 
 
 <h1>{{profile.user.username}}'s Profile</h1>
+
+<br/>
+
+{% if meeps %}
+{% for meep in meeps %}<br/><br/>
+
+    <div class="alert alert-primary" role="alert">
+      {{meep}}
+      </div><br/><br/>
+      {% endfor %}
+
+{% endif %}
+
+
 </div>
 
 <div class="col-4">
+    <br/><br/><br/>
     <div class="card">
         <div class="card-header">
           Follows

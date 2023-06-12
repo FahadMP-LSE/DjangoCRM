@@ -7,7 +7,14 @@
 
     {% if user.is_authenticated %}
     <!-- above div is bootstrap code to center everything -->
-    <h1>Records...</h1>
+    <h1><strong>Recent Activity</strong></h1>
+    {% for meep in meeps %}<br/><br/>
+
+    <div class="alert alert-primary" role="alert">
+      {{meep}}
+    </div>
+    
+    {% endfor %}
 
 <!-- show records when logged in -->
 
