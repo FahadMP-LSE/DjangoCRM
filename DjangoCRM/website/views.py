@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate,login, logout
 from django.contrib import messages # to show messages e.g. logged in /logged out/registered successfully
-from .forms import SignUpForm, AddRecordForm #importing form we created in forms.py file
+from .forms import SignUpForm, AddRecordForm,MeepForm #importing form we created in forms.py file
 from .models import Record, Profile,Meep
 
 
@@ -9,8 +9,20 @@ from .models import Record, Profile,Meep
 
 def home(request):#integrating login/logout here instead of in separate areas
     if request.user.is_authenticated:#show meeps to people logged in
+        form=MeepForm(request.POST or None)#form to post meeps
+        if request.method=="POST":
+            if form.is_valid():
+                meep=form.save(commit=False)#not saving just now
+                meep.user=request.user# saying whoever is logged in is meep user and save his work
+                meep.save()
+                messages.success(request,("Your message is posted successfully!"))
+                return redirect("home")
+        
         meeps=Meep.objects.all().order_by("-created_at")#reversing order to show latest meeps first otherwise shows oldest meeps first
-    return render(request,"home.html",{"meeps":meeps})
+        return render(request,"home.html",{"meeps":meeps,"form":form})
+    else:
+        meeps=Meep.objects.all().order_by("-created_at")
+        return render(request,"home.html",{"meeps":meeps})
     
 
 

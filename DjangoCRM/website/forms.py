@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User# User is user model - to get user details built-in.
 from django import forms
-from .models import Record
+from .models import Record,Meep
 
 
 class SignUpForm(UserCreationForm):# the class is importing the UserCreationForm but want to also modify a bit
@@ -50,5 +50,17 @@ class AddRecordForm(forms.ModelForm):#inheriting Modelform...no need to import a
 
     class Meta:
         model=Record
+        exclude=("user",)
+
+
+
+class MeepForm(forms.ModelForm):
+    body=forms.CharField(required=True,
+                         widget=forms.widgets.Textarea(attrs={"placeholder":
+                         "What's on your mind today?","class":"form-control",
+                         }),label="" )#require some text
+    
+    class Meta:
+        model=Meep
         exclude=("user",)
 

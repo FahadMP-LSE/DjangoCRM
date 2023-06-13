@@ -3,20 +3,54 @@
 
 {% block content %}
 
-
+<div class="container text-center">
+  <div class="row">
+      <div class="col-8">
 
     {% if user.is_authenticated %}
+
+    {% if form %}
+      <form method=POST>
+        {% csrf_token %}
+        <br/><br/>
+        {{form.as_p}}
+
+
+             
+        <button type="submit" class="btn btn-primary">Post!</button>
+      </form>
+
+      {% endif %}
     <!-- above div is bootstrap code to center everything -->
     <h1><strong>Recent Activity</strong></h1>
     {% for meep in meeps %}<br/><br/>
 
     <div class="alert alert-primary" role="alert">
-      {{meep}}
+      {{meep.body}}
+      <small class="text-muted">
+<br/> Message posted by <strong>@{{meep.user.username}}</strong> 
+<br/> {{meep.created_at}}
+
+      </small>
     </div>
     
     {% endfor %}
+      </div>
 
-<!-- show records when logged in -->
+      <!-- {% if form %}
+      <form method=POST>
+        {% csrf_token %}
+        <br/><br/>
+        {{form.as_p}}
+
+
+             
+        <button type="submit" class="btn btn-secondary">Post!</button>
+      </form>
+
+      {% endif %} -->
+
+ 
 
     {% else %}
     <div class="col-md-6 offset-md-3">
