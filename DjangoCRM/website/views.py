@@ -3,7 +3,8 @@ from django.contrib.auth import authenticate,login, logout
 from django.contrib import messages # to show messages e.g. logged in /logged out/registered successfully
 from .forms import SignUpForm, AddRecordForm,MeepForm #importing form we created in forms.py file
 from .models import Record, Profile,Meep
-
+from django.contrib.auth.forms import UserCreationForm#may not need this
+from django import forms# may not need this
 
 # Create your views here.
 
@@ -27,29 +28,46 @@ def home(request):#integrating login/logout here instead of in separate areas
 
 
 
-#check to see if logging in (posting) otherwise (getting request)
-    if request.method=="POST":
-        username=request.POST["username"]#saying that get their username (for placeholder Username)
-        password=request.POST["password"]
-        #running logic - authenticate
+# #check to see if logging in (posting) otherwise (getting request)
+#     if request.method=="POST":
+#         username=request.POST["username"]#saying that get their username (for placeholder Username)
+#         password=request.POST["password"]
+#         #running logic - authenticate
 
-        user=authenticate(request,username=username,password=password)#authenticate is function which takes arguments
-        if user is not None:
-            login(request,user)
-            #if username and password correct, logged in
-            messages.success(request, "You have been logged in!")
-            return redirect("home")
-        else:
-            messages.success(request,"There was an error logging in. Please Try again!")
-            return redirect("home")
-    else:         
-        return render(request,"home.html",{"records":records})#{} is an empty context dictionary
-#"records": records above means that ifuser has logged in, should see all records.
+#         user=authenticate(request,username=username,password=password)#authenticate is function which takes arguments
+#         if user is not None:
+#             login(request,user)
+#             #if username and password correct, logged in
+#             messages.success(request, "You have been logged in!")
+#             return redirect("home")
+#         else:
+#             messages.success(request,"There was an error logging in. Please Try again!")
+#             return redirect("home")
+#     else:         
+#         return render(request,"home.html",{"records":records})#{} is an empty context dictionary
+# #"records": records above means that ifuser has logged in, should see all records.
 
 def logout_user(request):
     logout(request)
     messages.success (request,"You have been logged out....")
     return redirect("home")
+
+def login_user(request):
+    if request.method=="POST":# if filling form and not only browsing website
+        username=request.POST["username"]
+        password=request.POST["password"]
+
+        #need to see which user trying to login
+        user=authenticate(request,username=username,password=password)
+        if user is not None:#if actual user
+            login(request, user)#log user in
+            messages.success(request,("You are logged in! Enjoy!"))
+            return render(request,"home.html")
+
+    else:    
+        messages.success(request,("There was an error logging in. Please try again!"))
+        return render(request,"login.html",{})
+
 
 def register_user(request):
     if request.method=="POST":
@@ -59,12 +77,16 @@ def register_user(request):
             #Authenticate and log in
             username=form.cleaned_data["username"]#form.cleaned gets the specific value from form "username" and assigns to username
             password=form.cleaned_data["password1"]
-            user=authenticate(username=username,password=password)
+            # first_name=form.cleaned_data["first_name"]
+            # last_name=form.cleaned_data["last_name"]
+            # email=form.cleaned_data["email"]
+            #log in user
+            user=authenticate(username=username,password=password)#if need first_name,last_name and email for authenticiation, uncomment above
             login(request,user)
             messages.success(request,"You have successfully registered!!!")
             return redirect("home")
         
-    else: # if not filling form but want to fill out fomr
+    else: # if not filling form but want to fill out form
         form=SignUpForm()#need to pass form to the page
     return render(request,"register.html",{"form":form})#{} to pass form to the page using context dictionary
 
