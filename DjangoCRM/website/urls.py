@@ -14,5 +14,7 @@ urlpatterns = [
     path("profile_list/",views.profile_list,name="profile_list"),
     path("view_records/",views.view_records,name="view_records"),
     path("profile/<int:pk>",views.profile,name="profile"),
+    path("update_user/",views.update_user,name="update_user"),#creating homepage "" is for homepage
+
 
 ]

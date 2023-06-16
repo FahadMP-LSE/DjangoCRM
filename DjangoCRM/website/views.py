@@ -5,6 +5,7 @@ from .forms import SignUpForm, AddRecordForm,MeepForm #importing form we created
 from .models import Record, Profile,Meep
 from django.contrib.auth.forms import UserCreationForm#may not need this
 from django import forms# may not need this
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -201,3 +202,21 @@ def profile(request, pk):
     else:
         messages.success(request,"There was an error logging in. Please Try again!")
         return redirect("home")
+
+
+def update_user(request):
+    if request.user.is_authenticated:
+        current_user=User.objects.get(id=request.user.id)#getting id of current user
+        form=SignUpForm(request.POST or None,instance=current_user)#passing all info of curent user to the page so that it is displayed and user can change it.
+        if form.is_valid():
+            form.save
+            login(request,current_user)# making sure it relogs us in.
+            messages.success(request,("Your message is updated successfully!"))
+            return redirect("home")
+        
+        return render(request, "update_user.html",{"form":form})
+
+    else:
+        messages.success(request,"You must be logged in")
+        return redirect("home")
+        

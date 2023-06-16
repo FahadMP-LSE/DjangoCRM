@@ -33,7 +33,9 @@ class Profile(models.Model):#importing model
 #Blank=true means a person is not forced to follow someone
 
     date_modified=models.DateTimeField(User, auto_now=True)
-
+    #adding profile image - note we are not saving user images but the links to the images
+    profile_image=models.ImageField(null=True,blank=True,upload_to="images/")#null=true means if no pic, fine
+#images/ will be in the media location we specified. e.g. media/images/...
 
     def __str__(self):
         return self.user.username#in profiles section, without this code, shows "profile object 1","profile object 2 etc..

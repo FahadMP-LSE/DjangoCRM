@@ -1,0 +1,23 @@
+{% extends "base.html"%}
+{% block content %}
+
+<div class="col-md-6 offset-md-3">
+
+    <h1> Update User</h1>
+    <br/>
+<!-- action="" will post to itself and not take to homepage etc -->
+    <form method="POST" action="">
+        {% csrf_token %}
+        {{form.as_p}}
+        <br/>
+
+        <!-- <form> -->
+
+            <button type="submit" class="btn btn-outline-secondary">Update Profile</button>
+        </form>
+</div>
+
+
+
+
+{% endblock %}

@@ -35,6 +35,12 @@
 <div class="col-2">
     <br/><br/><br/>
     <div class="card">
+
+      <!-- PROFILEpic logic -->
+{% if profile.profile_image %}
+<img src="{{profile.profile_image.url}}">
+{% endif %}
+
         <div class="card-header">
           Follows
         </div>
@@ -84,8 +90,14 @@
 
     </form>
     <br/>
+ 
+    {% if request.user.id == profile.user.id %}
 
+<!-- saying if our id matches the profile id then show the button - others should not see the update button for us -->
 
+    <a href="{% url "update_user" %}" class="btn btn-outline-secondary">Update Profile</a>
+
+ {% endif %}
 
 
 
