@@ -6,9 +6,12 @@
     <h1> Update User</h1>
     <br/>
 <!-- action="" will post to itself and not take to homepage etc -->
-    <form method="POST" action="">
+    <form method="POST" action="" enctype="multipart/form-data">
+        <!-- multipart thing is to allow pics etc  -->
         {% csrf_token %}
-        {{form.as_p}}
+        {{user_form.as_p}}
+        <br/>
+        {{profile_form.as_p}}
         <br/>
 
         <!-- <form> -->

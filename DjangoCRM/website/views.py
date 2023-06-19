@@ -1,7 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth import authenticate,login, logout
 from django.contrib import messages # to show messages e.g. logged in /logged out/registered successfully
-from .forms import SignUpForm, AddRecordForm,MeepForm #importing form we created in forms.py file
+from .forms import SignUpForm, AddRecordForm,MeepForm,ProfilePicForm #importing form we created in forms.py file
 from .models import Record, Profile,Meep
 from django.contrib.auth.forms import UserCreationForm#may not need this
 from django import forms# may not need this
@@ -207,16 +207,37 @@ def profile(request, pk):
 def update_user(request):
     if request.user.is_authenticated:
         current_user=User.objects.get(id=request.user.id)#getting id of current user
-        form=SignUpForm(request.POST or None,instance=current_user)#passing all info of curent user to the page so that it is displayed and user can change it.
-        if form.is_valid():
-            form.save
+        profile_user=Profile.objects.get(user__id=request.user.id)#grab profile of current loggd in users.
+        #get forms
+        
+        user_form=SignUpForm(request.POST or None,request.FILES or None,instance=current_user)#passing all info of curent user to the page so that it is displayed and user can change it.
+        profile_form=ProfilePicForm(request.POST or None,request.FILES or None,instance=profile_user)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+
+
             login(request,current_user)# making sure it relogs us in.
             messages.success(request,("Your message is updated successfully!"))
             return redirect("home")
         
-        return render(request, "update_user.html",{"form":form})
+        return render(request, "update_user.html",{"user_form":user_form,"profile_form":profile_form})
 
     else:
         messages.success(request,"You must be logged in")
         return redirect("home")
         
+def meep_like(request, pk):
+    if request.user.is_authenticated:
+        meep=get_object_or_404(Meep,id=pk)#object to query something from the database and return error if there is a priblem
+    #getting meep that matches id...next is logic
+        if meep.likes.filter(id=request.user.id):
+            meep.likes.remove(request.user)
+        else:
+            meep.likes.add(request.user)
+     
+        return redirect (request.META.get("HTTP_REFERER"))#REDIRECTS to the page that referrred us
+
+    else:
+        messages.success(request,("You must be logged in"))
+        return redirect("home")

@@ -62,6 +62,12 @@ class Meep(models.Model):
 
     body=models.CharField(max_length=200,default="")
     created_at=models.DateTimeField(auto_now_add=True)
+    #keep tracks of likes
+    likes=models.ManyToManyField(User,related_name="meep_like",blank=True)#many users can like many tweets
+
+    #counts of likes
+    def number_of_likes(self):
+        return self.likes.count()# will count likes above
 
     def __str__(self):
         return (

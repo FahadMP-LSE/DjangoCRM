@@ -12,7 +12,16 @@
 <div class="card mb-3" style="max-width: 540px;">
     <div class="row no-gutters">
       <div class="col-md-4">
-        <img src="{% static "images/Microsoft_Account_Logo.svg.png" %}" class="card-img" alt="Profile Image">
+        <!-- sayig if profile image exists, upload otherwise use defaultt -->
+{% if profile.profile_image %}
+<img src="{{profile.profile_image.url}}" width=200 height=200 class="card-img" alt="{{profile.user.username}}">
+{% else %}
+<img src="{% static "images/Microsoft_Account_Logo.svg.png" %}" class="card-img" alt="Profile Image">
+
+{% endif %}
+
+
+        
       </div>
       <div class="col-md-8">
         <div class="card-body">

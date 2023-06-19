@@ -1,8 +1,18 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User# User is user model - to get user details built-in.
 from django import forms
-from .models import Record,Meep
+from .models import Record,Meep,Profile
 
+#profile pic form update form
+
+class ProfilePicForm(forms.ModelForm):
+    profile_image=forms.ImageField(label="Profile Picture")
+
+    #tell where we are saving we will use profile model and get profile image from there
+
+    class Meta:
+        model=Profile
+        fields=("profile_image",)
 
 class SignUpForm(UserCreationForm):# the class is importing the UserCreationForm but want to also modify a bit
     email= forms.EmailField(label="",widget=forms.TextInput(attrs={"class":"form-control","placeholder":"Email Address"})) # getting user email address - can get @ symbol
@@ -62,5 +72,5 @@ class MeepForm(forms.ModelForm):
     
     class Meta:
         model=Meep
-        exclude=("user",)
+        exclude=("user","likes",)
 
